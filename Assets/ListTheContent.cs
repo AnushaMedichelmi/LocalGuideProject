@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using System;
+using Newtonsoft.Json;
 
 public class ListTheContent : MonoBehaviour
 {
@@ -48,7 +49,17 @@ public class ListTheContent : MonoBehaviour
                     Debug.Log(/*pages[page] +*/ ":\nReceived: " + webRequest.downloadHandler.text);
                     break;
             }
+
+            CreateList(webRequest.downloadHandler.text);
         }
+    }
+
+    private void CreateList(string jsonString)
+    {
+       Root theContent=new Root();
+       
+       Newtonsoft.Json.JsonConvert.PopulateObject(jsonString, theContent);
+        Debug.Log(theContent.results[0].name);
     }
 }
 // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
